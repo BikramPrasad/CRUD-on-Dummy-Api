@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { editEmployee } from "../../store/action/actions";
+
 class EditEmployee extends Component {
   render() {
     return (
@@ -10,4 +12,18 @@ class EditEmployee extends Component {
   }
 }
 
-export default connect()(EditEmployee);
+const mapStateToProps = (state) => {
+  return {
+    employees: state.employees,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteEmployee: (empId, newEmp) => {
+      dispatch(editEmployee(empId, newEmp));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditEmployee);

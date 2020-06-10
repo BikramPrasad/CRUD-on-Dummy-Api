@@ -1,9 +1,22 @@
-import * as actionTypes from "./actionTypes";
+import { ADD_EMPLOYEE_ACTION, DELETE_EMPLOYEE_ACTION, EDIT_EMPLOYEE_ACTION } from "./actionTypes";
 
 export const addNewEmployee = (employee) => (dispatch) => {
-  console.log(employee);
   dispatch({
-    type: actionTypes.ADD_EMPLOYEE_ACTION,
+    type: ADD_EMPLOYEE_ACTION,
     payload: employee,
+  });
+};
+
+export const deleteEmployeeById = (empId) => (dispatch) => {
+  dispatch({
+    type: DELETE_EMPLOYEE_ACTION,
+    payload: empId,
+  });
+};
+
+export const editEmployee = (empId, newEmp) => (dispatch) => {
+  dispatch({
+    type: EDIT_EMPLOYEE_ACTION,
+    payload: { empId, newEmp },
   });
 };

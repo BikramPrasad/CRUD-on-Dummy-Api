@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { deleteEmployeeById } from "../../store/action/actions";
 
 class EmployeeList extends Component {
-  componentDidUpdate() {
-    // console.log(this.props);
-  }
-
   render() {
-    // console.log(this.props);
     return (
       <div>
         <h2>Employee List</h2>
@@ -21,28 +18,47 @@ class EmployeeList extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{}</td>
-              <td></td>
-              <td></td>
-              <div className="">
-                <td>
-                  {/* <Link className="btn btn-primary">Edit</Link>
-                  <a className="btn btn-danger">Delete</a> */}
-                  <button className="btn waves-effect blue">Edit</button>
-                  <button className="btn waves-effect red">Delete</button>
-                </td>
-              </div>
-            </tr>
+            {this.props.employees.map((employee) => (
+              <tr>
+                <td>{employee.employee_name}</td>
+                <td>{employee.employee_age}</td>
+                <td>{employee.employee_salary}</td>
+                <div className="">
+                  <td>
+                    <Link to={`/edit/${employee.id}`}>
+                      <button className="btn waves-effect blue">Edit</button>
+                    </Link>
+                    <button
+                      className="btn waves-effect red"
+                      onClick={() => {
+                        this.props.deleteEmployee(employee.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </div>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     employees: state.employees,
   };
 };
-export default connect(mapStateToProps)(EmployeeList);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteEmployee: (empId) => {
+      dispatch(deleteEmployeeById(empId));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeList);

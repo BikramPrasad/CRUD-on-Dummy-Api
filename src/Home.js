@@ -1,23 +1,21 @@
-import React, { Component } from "react";
 import axios from "axios";
+import React, { Component } from "react";
 
 class Home extends Component {
   state = {
-    posts: [],
+    posts: []
   };
   componentDidMount() {
-    axios
-      .get("http://dummy.restapiexample.com/api/v1/employees")
-      .then((res) => {
-        this.setState({
-          posts: res.data.data,
-        });
+    axios.get("http://dummy.restapiexample.com/api/v1/employees").then(res => {
+      this.setState({
+        posts: res.data.data
       });
+    });
   }
   render() {
     const { posts } = this.state;
     const postList = posts.length ? (
-      posts.map((post) => {
+      posts.map(post => {
         return (
           <ul className="collection" key={post.id}>
             <li className="collection-item avatar">
