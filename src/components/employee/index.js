@@ -25,9 +25,10 @@ class EmployeeList extends Component {
                 <td>{employee.employee_salary}</td>
                 <div className="">
                   <td>
-                    <Link to={`/edit/${employee.id}`}>
+                    <Link to={"edit/" + employee.id}>
                       <button className="btn waves-effect blue">Edit</button>
                     </Link>
+
                     <button
                       className="btn waves-effect red"
                       onClick={() => {
