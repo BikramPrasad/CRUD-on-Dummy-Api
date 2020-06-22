@@ -20,7 +20,7 @@ class App extends PureComponent {
     });
   }
 
-  render() {
+  render(props) {
     return (
       <BrowserRouter>
         <div className="App">
@@ -28,7 +28,7 @@ class App extends PureComponent {
           <Switch>
             <Route exact path="/" component={EmployeeList}></Route>
             <Route path="/add" component={AddEmployee}></Route>
-            <Route path="/edit/:id" Component={EditEmployee}></Route>
+            <Route path="/edit/:id" component={EditEmployee}></Route>
           </Switch>
         </div>
       </BrowserRouter>
@@ -43,5 +43,9 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-
+// const mapStateToProps = (state) => {
+//   return {
+//     employee: employee,
+//   };
+// };
 export default connect(null, mapDispatchToProps)(App);

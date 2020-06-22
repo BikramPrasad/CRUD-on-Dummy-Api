@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteEmployeeById } from "../../store/action/actions";
+import Axios from "axios";
 
 class EmployeeList extends Component {
   render() {
@@ -25,13 +26,17 @@ class EmployeeList extends Component {
                 <td>{employee.employee_salary}</td>
                 <div className="">
                   <td>
-                    <Link to={`/edit/${employee.id}`}>
+                    <Link to={"edit/" + employee.id}>
                       <button className="btn waves-effect blue">Edit</button>
                     </Link>
+
                     <button
                       className="btn waves-effect red"
-                      onClick={() => {
+                      onClick={async () => {
                         this.props.deleteEmployee(employee.id);
+                        await Axios.delete(
+                          `http://dummy.restapiexample.com/api/v1/delete/${employee.id}`
+                        );
                       }}
                     >
                       Delete

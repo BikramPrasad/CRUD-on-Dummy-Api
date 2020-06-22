@@ -1,19 +1,32 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { addNewEmployee } from "../../store/action/actions";
+import Axios from "axios";
 
 class AddEmployee extends Component {
   state = {
-    name: "",
-    salary: "",
-    age: ""
+    id: Math.floor((25 + Math.random()) * 0x10),
+    employee_name: "",
+    employee_salary: "",
+    employee_age: "",
+    profile_image: "",
   };
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
-  handleSubmit = e => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     console.log(this.state);
+    //this.id = 25 + Math.floor(Math.random());
+    this.props.addNewEmployeeToStore(this.state);
+    this.props.history.push("/");
+    await Axios.post(`	http://dummy.restapiexample.com/api/v1/create`, {
+      name: this.state.employee_name,
+      salary: this.state.employee_salary,
+      age: this.state.employee_age,
+    });
   };
   render() {
     return (
@@ -22,15 +35,15 @@ class AddEmployee extends Component {
           <h5 className="grey-text text-darken-3">Add Employee</h5>
           <div className="input-field">
             <label htmlFor="name">Name</label>
-            <input type="text" id="name" onChange={this.handleChange} required />
+            <input type="text" id="employee_name" onChange={this.handleChange} required />
           </div>
           <div className="input-field">
             <label htmlFor="age">Age</label>
-            <input type="text" id="age" onChange={this.handleChange} required />
+            <input type="text" id="employee_age" onChange={this.handleChange} required />
           </div>
           <div className="input-field">
             <label htmlFor="name">Salary</label>
-            <input type="text" id="salary" onChange={this.handleChange} required />
+            <input type="text" id="employee_salary" onChange={this.handleChange} required />
           </div>
 
           <div className="input-field">
@@ -42,10 +55,11 @@ class AddEmployee extends Component {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     createEmployee: (employee) => dispatch(createEmployees(employee)),
-//   };
-// };
-
-export default AddEmployee;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewEmployeeToStore: (employee) => {
+      dispatch(addNewEmployee(employee));
+    },
+  };
+};
+export default connect(null, mapDispatchToProps)(AddEmployee);
