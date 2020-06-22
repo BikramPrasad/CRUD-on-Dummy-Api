@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { editEmployee } from "../../store/action/actions";
+import axios from "axios";
 
 class EditEmployee extends Component {
   state = {
@@ -14,14 +15,35 @@ class EditEmployee extends Component {
       [e.target.id]: e.target.value,
     });
   };
-  handleSubmit = (e) => {
+
+  handleSubmit = async (e) => {
     e.preventDefault();
     this.props.editEmployee(this.props.match.params.id, this.state);
     this.props.history.push("/");
+    const response = await axios.put(
+      `http://dummy.restapiexample.com/api/v1/update/${this.props.match.params.id}`,
+      {
+        name: this.state.employee_name,
+        salary: this.state.employee_salary,
+        age: this.state.employee_age,
+      }
+    );
+    const data = response.data.data;
+    console.log(data);
   };
-  render(props) {
-    console.log(this.props.employees);
+
+  componentDidMount() {
     const employee = this.props.employees.find((emp) => emp.id === this.props.match.params.id);
+    this.setState({
+      employee_name: employee.employee_name,
+      employee_age: employee.employee_salary,
+      employee_salary: employee.employee_age,
+      profile_image: "",
+    });
+  }
+
+  render(props) {
+    const employee = this.state;
     return (
       <div className="container">
         <h2>Edit Employee</h2>
@@ -32,7 +54,7 @@ class EditEmployee extends Component {
               type="text"
               id="employee_name"
               onChange={this.handleChange}
-              defaultValue={employee.employee_name}
+              value={employee.employee_name}
             />
           </div>
           <div className="input-field">
@@ -41,7 +63,7 @@ class EditEmployee extends Component {
               type="text"
               id="employee_age"
               onChange={this.handleChange}
-              defaultValue={employee.employee_age}
+              value={employee.employee_age}
             />
           </div>
           <div className="input-field">
@@ -50,7 +72,7 @@ class EditEmployee extends Component {
               type="text"
               id="employee_salary"
               onChange={this.handleChange}
-              defaultValue={employee.employee_salary}
+              value={employee.employee_salary}
             />
           </div>
           <div className="input-field">

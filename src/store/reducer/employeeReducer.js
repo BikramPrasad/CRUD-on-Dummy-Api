@@ -23,7 +23,7 @@ export default (state = initialState, action) => {
       return immer(state, (draft) => {
         draft.employees = draft.employees.map((emp) => {
           if (emp.id === action.payload.empId) {
-            return action.payload.newEmp;
+            return { ...action.payload.newEmp, id: emp.id };
           } else {
             return emp;
           }

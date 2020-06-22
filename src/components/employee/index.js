@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteEmployeeById } from "../../store/action/actions";
+import Axios from "axios";
 
 class EmployeeList extends Component {
   render() {
@@ -31,8 +32,11 @@ class EmployeeList extends Component {
 
                     <button
                       className="btn waves-effect red"
-                      onClick={() => {
+                      onClick={async () => {
                         this.props.deleteEmployee(employee.id);
+                        await Axios.delete(
+                          `http://dummy.restapiexample.com/api/v1/delete/${employee.id}`
+                        );
                       }}
                     >
                       Delete

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { addNewEmployee } from "../../store/action/actions";
+import Axios from "axios";
 
 class AddEmployee extends Component {
   state = {
@@ -15,12 +16,17 @@ class AddEmployee extends Component {
       [e.target.id]: e.target.value,
     });
   };
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     console.log(this.state);
     //this.id = 25 + Math.floor(Math.random());
     this.props.addNewEmployeeToStore(this.state);
     this.props.history.push("/");
+    await Axios.post(`	http://dummy.restapiexample.com/api/v1/create`, {
+      name: this.state.employee_name,
+      salary: this.state.employee_salary,
+      age: this.state.employee_age,
+    });
   };
   render() {
     return (
